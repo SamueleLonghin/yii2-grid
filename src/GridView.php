@@ -61,7 +61,7 @@ class GridView extends \kartik\grid\GridView
 	public $hover = true;
 	public $striped = false;
 	public $bordered = false;
-//	public $summary = '';
+	//	public $summary = '';
 	public $showOnEmpty = false;
 	public $responsive = true;
 	public $responsiveWrap = false;
@@ -82,7 +82,7 @@ class GridView extends \kartik\grid\GridView
 	public $exportColumns = [];
 	public $exportMergeColumns = [];
 
-	public $panelTemplate = <<< HTML
+	public $panelTemplate = <<<HTML
 {panelBefore}
 {items}
 {panelAfter}
@@ -108,9 +108,10 @@ HTML;
 	/**
 	 * @throws InvalidConfigException
 	 */
-	public function init()
+	public function init(): void
 	{
-		if (!$this->visible) return;
+		if (!$this->visible)
+			return;
 		if (!isset($this->dataProvider)) {
 			if (isset($this->query)) {
 				$pagination = [];
@@ -135,7 +136,8 @@ HTML;
 		if (!$this->itemClass) {
 			if (isset($this->dataProvider->query) && isset($this->dataProvider->query->modelClass)) {
 				$this->itemClass = $this->dataProvider->query->modelClass;
-			} else throw new InvalidConfigException('Manca itemClass');
+			} else
+				throw new InvalidConfigException('Manca itemClass');
 		}
 		if (!$this->isEmpty && !$this->columns) {
 			if (empty($this->baseColumns)) {
@@ -165,7 +167,8 @@ HTML;
 			else
 				$attribute = $this->attribute;
 			$params = $this->rowClickParams;
-			if (!$params) $params = [];
+			if (!$params)
+				$params = [];
 			$this->rowOptions = function ($model) use ($urlClick, $pk, $attribute, $params) {
 				$params[$pk] = $model[$attribute];
 				$params[] = $urlClick;
@@ -177,13 +180,15 @@ HTML;
 			$this->cornerButton = Btn::widget(['type' => 'expand', 'url' => $this->cornerButtonUrl ?: false, 'icon' => $this->cornerIcon ?: 'expand', 'text' => false]);
 		}
 		if ($this->collapse && $this->collapsable) {
-			if (!isset($this->options['class'])) $this->options['class'] = 'collapse';
-			if (is_array($this->options['class'])) array_push($this->options['class'], 'collapse');
+			if (!isset($this->options['class']))
+				$this->options['class'] = 'collapse';
+			if (is_array($this->options['class']))
+				array_push($this->options['class'], 'collapse');
 			$this->options['class'] .= ' collapse';
 		}
 
 
-//		var_dump($this->dataProvider->getPagination());
+		//		var_dump($this->dataProvider->getPagination());
 //		die();
 
 		$this->prepareExport();
@@ -255,10 +260,12 @@ HTML;
 		$exportButton = $this->renderExport();
 
 		$alignEnd = $this->isBs(4) ? 'ml-auto' : ($this->isBs(5) ? 'align-self-end' : '');
-		return Html::tag('div',
+		return Html::tag(
+			'div',
 			Html::tag('div', $title, ['class' => 'col']) .
 			Html::tag('div', $cornerButtons . $exportButton, ['class' => "col-auto px-3 $alignEnd"]),
-			['class' => 'row']);
+			['class' => 'row']
+		);
 	}
 
 	protected function initModule()
@@ -352,7 +359,8 @@ HTML;
 			$first = strtoupper($name[1]);
 			$rest = substr($name, 2, strlen($name) - 3);
 			$renderFunction = 'render' . $first . $rest;
-			if ($this->hasMethod($renderFunction)) return $this->{$renderFunction}();
+			if ($this->hasMethod($renderFunction))
+				return $this->{$renderFunction}();
 		}
 		return parent::renderSection($name);
 	}
