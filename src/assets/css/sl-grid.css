@@ -1,3 +1,27 @@
 .kv-table-header {
     background: transparent;
 }
+
+.table, td, th {
+    background-color: transparent !important;
+}
+
+.sl-gridview-clickable-row {
+    position: relative;
+}
+
+.sl-gridview-clickable-row a.stretched-link {
+    /*display: block;*/
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    z-index: 2;
+}
+
+.sl-gridview-existing-link {
+    z-index: 5; /* Imposta un z-index più alto per i link esistenti */
+    position: relative; /* Necessario per z-index */
+    transform: rotate(0); /* Questo permette di bloccare i stretched link presenti all'interno che non si espandano oltre questo elemento.
+    È utile perché in safari sennò non funzionano gli stretched link */
+}

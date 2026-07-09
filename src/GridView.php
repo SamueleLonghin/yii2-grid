@@ -45,6 +45,7 @@ class GridView extends \kartik\grid\GridView
 	 * @var DataProviderInterface|ActiveDataProvider
 	 */
 	public $exportProvider;
+	public $exportClass = ExportMenu::class;
 	public $rowClickUrl = false;
 	public $rowClick = true;
 	public $rowClickParams = null;
@@ -57,10 +58,12 @@ class GridView extends \kartik\grid\GridView
 	 */
 	public $title = false;
 	public string $containerClass = 'rounded shadow mt-5 mb-5 p-3';
+	public $headerContainer = ['class' => 'kv-table-header sml-table-header'];
 	public bool $visible = true;
 	public $hover = true;
 	public $striped = false;
 	public $bordered = false;
+
 	//	public $summary = '';
 	public $showOnEmpty = false;
 	public $responsive = true;
@@ -173,7 +176,14 @@ HTML;
 				$params[$pk] = $model[$attribute];
 				$params[] = $urlClick;
 				$url = Url::toRoute($params);
-				return [$pk => $model[$attribute], 'onclick' => 'cambiaPagina(event,"' . $url . '");'];
+				return [
+					$pk => $model[$attribute],
+					//                    'onclick' => 'cambiaPagina(event,"' . $url . '");',
+					'data-url' => $url,
+					//                    'data-href' => $url,
+//                    'title' => $url,
+					'class' => 'sl-gridview-clickable-row'
+				];
 			};
 		}
 		if ($this->cornerButton === true) {
@@ -308,8 +318,10 @@ HTML;
 		$showOnEmpty = ArrayHelper::getValue($this->export, 'showOnEmpty', $this->showOnEmpty);
 		$showColumnSelector = ArrayHelper::getValue($this->export, 'showColumnSelector', true);
 		$exportRequestParam = ArrayHelper::getValue($this->export, 'exportRequestParam', $this->id . '-export-');
-
-		return ExportMenu::widget([
+		//
+//        var_dump($this->exportClass);
+//        die();
+		return $this->exportClass::widget([
 			'pjax' => false,
 			'pjaxContainerId' => null,
 			'clearBuffers' => true,
@@ -322,16 +334,16 @@ HTML;
 			'exportRequestParam' => $exportRequestParam,
 			'options' => ['id' => 'expMenu-' . $this->id],
 			'boxStyleOptions' => [
-				ExportMenu::FORMAT_HTML => $this->defaultExportStyle,
-				ExportMenu::FORMAT_PDF => $this->defaultExportStyle,
-				ExportMenu::FORMAT_EXCEL => $this->defaultExportStyle,
-				ExportMenu::FORMAT_EXCEL_X => $this->defaultExportStyle,
+				$this->exportClass::FORMAT_HTML => $this->defaultExportStyle,
+				$this->exportClass::FORMAT_PDF => $this->defaultExportStyle,
+				$this->exportClass::FORMAT_EXCEL => $this->defaultExportStyle,
+				$this->exportClass::FORMAT_EXCEL_X => $this->defaultExportStyle,
 			],
 			'exportConfig' => [
-				ExportMenu::FORMAT_HTML => [
+				$this->exportClass::FORMAT_HTML => [
 					'defaultRowDimension' => ['height' => "200px"]
 				],
-				ExportMenu::FORMAT_PDF => [
+				$this->exportClass::FORMAT_PDF => [
 					'pdfConfig' => [
 						'cssFile' => '@webroot/css/pdf/main.css',
 					],
