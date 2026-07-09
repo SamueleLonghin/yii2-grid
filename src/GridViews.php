@@ -22,7 +22,7 @@ class GridViews extends Widget
 	public $visible = true;
 	public $limit = null;
 
-	public function init()
+	public function init(): void
 	{
 		if (isset($this->data) && $this->visible) {
 			if (is_array($this->data)) {
@@ -58,7 +58,8 @@ class GridViews extends Widget
 			$this->renderPreGrid();
 			$this->renderTitle();
 			foreach ($this->data as $title => $options) {
-				if (!$this->isAssociative) $title = ArrayHelper::getValue($options, 'title', '');
+				if (!$this->isAssociative)
+					$title = ArrayHelper::getValue($options, 'title', '');
 				$this->renderGrid($title, $options);
 			}
 			$this->renderPostGrid();
@@ -99,17 +100,17 @@ class GridViews extends Widget
 		if (is_string($this->title) || $this->isAssociative) {
 			$headingNumber = 2 + $this->level;
 			?>
-            <div class="row">
-                <div class="col">
-                    <h<?= $headingNumber ?>><?= Html::encode($this->title) ?></h<?= $headingNumber ?>>
-                </div>
-                <div class="px-3 ml-auto">
+			<div class="row">
+				<div class="col">
+					<h<?= $headingNumber ?>><?= Html::encode($this->title) ?></h<?= $headingNumber ?>>
+				</div>
+				<div class="px-3 ml-auto">
 					<?= $this->cornerButton ?>
 					<?php
 					//                    $this->renderToggleButton();
 					?>
-                </div>
-            </div>
+				</div>
+			</div>
 			<?php
 		}
 	}
@@ -124,11 +125,11 @@ class GridViews extends Widget
 	{
 		if ($this->cornerButton) {
 			?>
-            <div class="row">
-                <div class="px-3 ml-auto">
+			<div class="row">
+				<div class="px-3 ml-auto">
 					<?= $this->cornerButton ?>
-                </div>
-            </div>
+				</div>
+			</div>
 			<?php
 		}
 	}
@@ -139,16 +140,16 @@ class GridViews extends Widget
 		if (is_string($title) || $this->isAssociative) {
 			$headingNumber = 3 + $this->level;
 			?>
-            <div class="row">
-                <div class="col">
-                    <h<?= $headingNumber ?>><?= $title ?></h<?= $headingNumber ?>>
-                </div>
-                <div class="px-3 ml-auto">
+			<div class="row">
+				<div class="col">
+					<h<?= $headingNumber ?>><?= $title ?></h<?= $headingNumber ?>>
+				</div>
+				<div class="px-3 ml-auto">
 					<?= $this->cornerButton ?>
-                </div>
-            </div>
+				</div>
+			</div>
 			<?php
-//            $this->title = false;
+			//            $this->title = false;
 		}
 
 	}
@@ -156,26 +157,24 @@ class GridViews extends Widget
 	public function renderToggleButton()
 	{
 		?>
-        <button class="btn btn-link" role="button" data-toggle="collapse" data-target="#d-<?= $this->id ?>>"
-                aria-expanded="true"
-                aria-controls="d-<?= $this->id ?>">
-            Apri/chiudi
-        </button>
+		<button class="btn btn-link" role="button" data-toggle="collapse" data-target="#d-<?= $this->id ?>>"
+			aria-expanded="true" aria-controls="d-<?= $this->id ?>">
+			Apri/chiudi
+		</button>
 		<?php
 	}
 
 	public function renderStartContainer()
 	{
 		?>
-        <div id="d-<?= $this->id ?>"
-        class="collapse show <?= $this->level == 0 ? $this->containerClass : '' ?>">
-		<?php
+		<div id="d-<?= $this->id ?>" class="collapse show <?= $this->level == 0 ? $this->containerClass : '' ?>">
+			<?php
 	}
 
 	private function renderEndContainer()
 	{
 		?>
-        </div>
+		</div>
 		<?php
 	}
 }
